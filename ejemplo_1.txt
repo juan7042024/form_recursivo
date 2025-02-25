@@ -1,0 +1,16 @@
+{
+    "blocks": [
+        {
+                "type": "time",
+                "name": "campo1",
+                "label": "Ingrese campo 1.1",
+                "width": "col-md-12"
+        },
+        {
+                "type": "time",
+                "name": "campo1",
+                "label": "Ingrese campo 1.1",
+                "width": "col-md-12"
+        }
+    ]
+}

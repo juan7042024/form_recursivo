@@ -1,0 +1,115 @@
+<!-- <div *ngIf="bloque">
+    <label [for]="bloque.name" class="form-label">{{ bloque.label }}</label>
+    <input 
+      [type]="bloque.type" 
+      [name]="bloque.name" 
+      [(ngModel)]="formData[bloque.name]"
+      class="form-control" 
+      [id]="bloque.name" 
+      required
+    />
+    Si el bloque tiene bloques anidados, procesarlos recursivamente
+    <div *ngIf="bloque.blocks">
+      <ng-container *ngFor="let nestedBlock of bloque.blocks">
+        <app-bloque [bloque]="nestedBlock" [formData]="formData"></app-bloque>
+      </ng-container>
+    </div>
+  </div> -->
+
+
+  <div *ngIf="bloque">
+    <!-- Si es un campo simple (no tiene bloques anidados) -->
+    <div *ngIf="!bloque.blocks" [ngClass]="bloque.width ? bloque.width : 'col-12'" class="w-100">
+      <label [for]="bloque.name" class="form-label">{{ bloque.label }}</label>
+      <ng-container [ngSwitch]="bloque.type">
+        <!-- Si el tipo es 'textarea', renderiza un <textarea> -->
+        <textarea *ngSwitchCase="'textarea'" 
+                  [name]="bloque.name" 
+                  [(ngModel)]="formData[bloque.name]"
+                  class="form-control" 
+                  [id]="bloque.name" 
+                  required>
+        </textarea>
+        <!-- Por defecto, renderiza un <input> -->
+        <input *ngSwitchDefault
+               [type]="bloque.type" 
+               [name]="bloque.name" 
+               [(ngModel)]="formData[bloque.name]"
+               class="form-control" 
+               [id]="bloque.name" 
+               required/>
+      </ng-container>
+    </div>
+    
+    <!-- Si el bloque contiene grupos o bloques anidados -->
+    <div *ngIf="bloque.blocks" class="nested-blocks">
+      
+      <!-- Modo Columns: los grupos se muestran en una fila, y sus hijos se organizan en otra fila -->
+      <div *ngIf="displayMode === 'columns'" class="row g-3">
+        <!-- Cada grupo se envuelve en un div con la clase de ancho definida o 'col-md-4' por defecto -->
+        <div *ngFor="let group of groups" [ngClass]="group.width ? group.width : 'col-md-12'">
+          <div class="group-header mb-2"><strong>{{ group.title }}</strong></div>
+          <!-- Para los elementos del grupo, también se usa una fila y se asignan las clases de ancho -->
+          <div class="row g-2">
+            <div *ngFor="let child of group.blocks" [ngClass]="child.width ? child.width : 'col-12'">
+              <app-bloque [bloque]="child" [formData]="formData"></app-bloque>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Modo Tabs: la cabecera de pestañas se mantiene, y el contenido de cada pestaña se organiza en una fila -->
+      <div *ngIf="displayMode === 'tabs'">
+        <ul class="nav nav-tabs">
+          <li *ngFor="let group of groups; let i = index" class="nav-item">
+            <a 
+              class="nav-link" 
+              [class.active]="currentPage === i" 
+              (click)="currentPage = i">
+              {{ group.title }}
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content p-3 border border-top-0">
+          <div 
+            *ngFor="let group of groups; let i = index" 
+            class="tab-pane fade" 
+            [class.active]="currentPage === i"
+            [class.show]="currentPage === i">
+            <!-- Aquí el contenido de cada grupo se organiza en una fila -->
+            <div class="row g-2">
+              <div *ngFor="let child of group.blocks" [ngClass]="child.width ? child.width : 'col-12'">
+                <app-bloque [bloque]="child" [formData]="formData"></app-bloque>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Modo Pagination: cada página se organiza de forma similar, con los elementos en una fila -->
+      <div *ngIf="displayMode === 'pagination'">
+        <div *ngFor="let group of groups; let i = index" [hidden]="i !== currentPage">
+          <div class="row g-2">
+            <div *ngFor="let child of group.blocks" [ngClass]="child.width ? child.width : 'col-12'">
+              <app-bloque [bloque]="child" [formData]="formData"></app-bloque>
+            </div>
+          </div>
+        </div>
+        <nav>
+          <ul class="pagination mt-3 justify-content-center">
+            <li *ngFor="let group of groups; let i = index" 
+                class="page-item" 
+                [class.active]="i === currentPage">
+              <a class="page-link" (click)="currentPage = i">{{ i + 1 }}</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+  
+  
+  

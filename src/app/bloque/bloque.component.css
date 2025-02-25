@@ -1,0 +1,28 @@
+.nested-blocks {
+    margin-left: 15px;
+    border-left: 2px solid #eee;
+    padding-left: 15px;
+    margin-top: 15px;
+  }
+
+  /* bloque.component.css */
+:host {
+  display: block;
+  width: 95%; /*Aqui se cambia el ancho que usara la pantalla*/
+}
+
+.form-control {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nested-blocks .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.nested-blocks [class^="col-"] {
+  padding-left: 0;
+  padding-right: 0;
+}
+  

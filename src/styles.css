@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+form.needs-validation {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  [class^="col-"] {
+    padding-left: 0;
+    padding-right: 0;
+  }

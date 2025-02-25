@@ -1,0 +1,34 @@
+/* Para las columnas */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .col-md-4 {
+    flex: 1 0 33%;
+    margin-bottom: 20px;
+  }
+  
+  /* Para las pestañas */
+  .tabs .nav-tabs {
+    display: flex;
+  }
+  
+  .tabs .nav-tabs li {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .tabs .tab-content {
+    margin-top: 20px;
+  }
+  
+  .page {
+    margin-bottom: 20px;
+  }
+  
+
+
+
+  
+  
