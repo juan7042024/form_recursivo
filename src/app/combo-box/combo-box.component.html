@@ -1,0 +1,22 @@
+<div class="dropdown col-md-4">
+  <!-- Botón que simula el select -->
+  <button type="button" class="btn btn-outline-secondary dropdown-toggle w-100 text-left" (click)="toggleDropdown()">
+    {{ selectedOption?.nombre || 'Seleccione una opción' }}
+  </button>
+  <!-- Dropdown que contiene el input de búsqueda y las opciones filtradas -->
+  <div class="dropdown-menu w-100 p-2" [class.show]="showDropdown">
+    <!-- Input de búsqueda -->
+    <input type="text" class="form-control mb-2" placeholder="Buscar..." 
+           [formControl]="Buscador" (blur)="onBlur()" (click)="$event.stopPropagation()">
+    <!-- Se muestran las opciones filtradas solo si hay resultados -->
+    <ng-container *ngIf="(filteredOptions | async)?.length; else noResults">
+      <a class="dropdown-item" *ngFor="let option of filteredOptions | async" (mousedown)="selectOption(option)">
+        {{ option.nombre }}
+      </a>
+    </ng-container>
+    <!-- Mensaje cuando no hay resultados -->
+    <ng-template #noResults>
+      <span class="dropdown-item disabled">No hay opciones</span>
+    </ng-template>
+  </div>
+</div>
